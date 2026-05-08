@@ -1,0 +1,9 @@
+# Build artifacts
+*.class
+*.exe
+
+# Optional common folders
+bin/
+out/
+target/
+build/
