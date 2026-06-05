@@ -1,14 +1,14 @@
 #include <stdio.h>
 
-void CallByValue(int iNo)
+void CallByAddress(int *iPtr)
 {
-    iNo++;
+    (*iPtr)++;
 }
  
 int main()
 {
    int iValue=11;
-   CallByValue(iValue);
+   CallByAddress(&iValue);
 
    printf("Value after Function call %d\n",iValue);
    
