@@ -1,18 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int CountEven(int Arr[],int iSize)
+//O(N) Time complexity O(N)
+int Minimum(int Arr[],int iSize)
 {
     int iCnt=0;
-    int iRet=0;
-    for(iCnt=0;iCnt<iSize;iCnt++)
-    {  if(Arr[iCnt]%2==0)
-    {
+  int iMin=0;
 
-        iRet++;
+  iMin=Arr[0];
+  
+    for(iCnt=0;iCnt<iSize;iCnt++)
+    {  
+        if(Arr[iCnt]<iMin)
+        {
+            iMin=Arr[iCnt];
+        }
     }
-    }
-    return iRet;
+
+   
+  return iMin;
+
 
 }
 
@@ -22,6 +29,7 @@ int main()
     int *Brr=NULL;
     int iCnt=0;
     int iRet=0;
+    int iValue=0;
     printf("Enter the number of elements \n");
     scanf("%d",&iSize);
     Brr=(int *)malloc(iSize*sizeof(int));
@@ -32,10 +40,10 @@ int main()
        printf("Enter the number at index  %d ",iCnt+1);
        scanf("%d",&Brr[iCnt]);
    }
-    iRet=CountEven(Brr,iSize);
+\
+    iRet=Minimum(Brr,iSize);
 
-    printf("Summation is : %d",iRet);
-
+   printf("The Minimum Value is %d",iRet);
     free(Brr);
 
 

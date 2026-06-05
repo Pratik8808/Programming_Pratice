@@ -1,18 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int CountEven(int Arr[],int iSize)
+#include <stdbool.h>
+
+
+//O(N) Time complexity O(N)
+int Maximum(int Arr[],int iSize)
 {
     int iCnt=0;
-    int iRet=0;
-    for(iCnt=0;iCnt<iSize;iCnt++)
-    {  if(Arr[iCnt]%2==0)
-    {
+  int iMax=0;
 
-        iRet++;
+  iMax=Arr[0];
+  
+    for(iCnt=0;iCnt<iSize;iCnt++)
+    {  
+        if(Arr[iCnt]>iMax)
+        {
+            iMax=Arr[iCnt];
+        }
     }
-    }
-    return iRet;
+
+   
+  return iMax;
+
 
 }
 
@@ -22,6 +32,7 @@ int main()
     int *Brr=NULL;
     int iCnt=0;
     int iRet=0;
+    int iValue=0;
     printf("Enter the number of elements \n");
     scanf("%d",&iSize);
     Brr=(int *)malloc(iSize*sizeof(int));
@@ -32,10 +43,10 @@ int main()
        printf("Enter the number at index  %d ",iCnt+1);
        scanf("%d",&Brr[iCnt]);
    }
-    iRet=CountEven(Brr,iSize);
+\
+    iRet=Maximum(Brr,iSize);
 
-    printf("Summation is : %d",iRet);
-
+   printf("The maximum Value is %d",iRet);
     free(Brr);
 
 

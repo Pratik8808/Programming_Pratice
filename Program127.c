@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int CountEven(int Arr[],int iSize)
+int Count11(int Arr[],int iSize)
 {
     int iCnt=0;
     int iRet=0;
     for(iCnt=0;iCnt<iSize;iCnt++)
-    {  if(Arr[iCnt]%2==0)
+    {  if(Arr[iCnt]==11)
     {
 
         iRet++;
@@ -32,9 +32,9 @@ int main()
        printf("Enter the number at index  %d ",iCnt+1);
        scanf("%d",&Brr[iCnt]);
    }
-    iRet=CountEven(Brr,iSize);
+    iRet=Count11(Brr,iSize);
 
-    printf("Summation is : %d",iRet);
+    printf("Cout of 11 is : %d",iRet);
 
     free(Brr);
 

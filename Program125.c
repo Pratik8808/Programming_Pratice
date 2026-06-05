@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int CountEven(int Arr[],int iSize)
+int SummationEven(int Arr[],int iSize)
 {
     int iCnt=0;
     int iRet=0;
@@ -9,7 +9,7 @@ int CountEven(int Arr[],int iSize)
     {  if(Arr[iCnt]%2==0)
     {
 
-        iRet++;
+        iRet+=Arr[iCnt];
     }
     }
     return iRet;
@@ -32,7 +32,7 @@ int main()
        printf("Enter the number at index  %d ",iCnt+1);
        scanf("%d",&Brr[iCnt]);
    }
-    iRet=CountEven(Brr,iSize);
+    iRet=SummationEven(Brr,iSize);
 
     printf("Summation is : %d",iRet);
 

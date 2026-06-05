@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int CountEven(int Arr[],int iSize)
+#include <stdbool.h>
+
+bool LinearSearch(int Arr[],int iSize)
 {
     int iCnt=0;
-    int iRet=0;
+  
     for(iCnt=0;iCnt<iSize;iCnt++)
-    {  if(Arr[iCnt]%2==0)
+    {  if(Arr[iCnt]==11)
     {
 
-        iRet++;
+        return true;  // Bad Programming Pratice Avoid at any cost in interview 
+        
     }
     }
-    return iRet;
-
+    return false;
 }
 
 int main()
@@ -21,7 +23,7 @@ int main()
     int iSize=0;
     int *Brr=NULL;
     int iCnt=0;
-    int iRet=0;
+    bool bRet=0;
     printf("Enter the number of elements \n");
     scanf("%d",&iSize);
     Brr=(int *)malloc(iSize*sizeof(int));
@@ -32,9 +34,16 @@ int main()
        printf("Enter the number at index  %d ",iCnt+1);
        scanf("%d",&Brr[iCnt]);
    }
-    iRet=CountEven(Brr,iSize);
+    bRet=LinearSearch(Brr,iSize);
 
-    printf("Summation is : %d",iRet);
+    if(bRet==true)
+    {
+        printf("Number 11 is Present");
+    }
+    else 
+    {
+        printf("11 is not Present in the Array");
+    }
 
     free(Brr);
 
