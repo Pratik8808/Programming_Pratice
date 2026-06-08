@@ -5,34 +5,25 @@
 
 
 //O(N) Time complexity O(N)
-bool LinearSearch(int Arr[],int iSize,int iNo)
+int Maximum(int Arr[],int iSize)
 {
     int iCnt=0;
-  
+  int iMax=0;
+
+  iMax=Arr[0];
   
     for(iCnt=0;iCnt<iSize;iCnt++)
-    {  if(Arr[iCnt]==iNo)
-    {
-
-      
-        break;
-      
-        
+    {  
+        if(Arr[iCnt]>iMax)
+        {
+            iMax=Arr[iCnt];
+        }
     }
 
    
-    
+  return iMax;
 
-}
- if(iCnt<iSize)
-    {
-        return true;
-    }
-    else                  //conditon are change just;
-    {
-        return false;  
 
-    }
 }
 
 int main()
@@ -40,7 +31,7 @@ int main()
     int iSize=0;
     int *Brr=NULL;
     int iCnt=0;
-    bool bRet=false;
+    int iRet=0;
     int iValue=0;
     printf("Enter the number of elements \n");
     scanf("%d",&iSize);
@@ -52,20 +43,10 @@ int main()
        printf("Enter the number at index  %d ",iCnt+1);
        scanf("%d",&Brr[iCnt]);
    }
+\
+    iRet=Maximum(Brr,iSize);
 
-     printf("Enter the element you wanted to serach \n");
-     scanf("%d",&iValue);
-    bRet=LinearSearch(Brr,iSize,iValue);
-
-    if(bRet==true)
-    {
-        printf("Number %d is Present \n",iValue);
-    }
-    else
-    {
-        printf("Number is not Present in the Array");
-    }
-
+   printf("The maximum Value is %d",iRet);
     free(Brr);
 
 

@@ -1,27 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <stdbool.h>
-
-
 //O(N) Time complexity O(N)
-int Maximum(int Arr[],int iSize)
+int Minimum(int Arr[],int iSize)
 {
     int iCnt=0;
-  int iMax=0;
+  int iMin=0;
 
-  iMax=Arr[0];
+  iMin=Arr[0];
   
     for(iCnt=0;iCnt<iSize;iCnt++)
-    {  
-        if(Arr[iCnt]>iMax)
+    {
+        if(Arr[iCnt]<iMin)
         {
-            iMax=Arr[iCnt];
+            iMin=Arr[iCnt];
         }
     }
 
    
-  return iMax;
+  return iMin;
 
 
 }
@@ -44,9 +41,9 @@ int main()
        scanf("%d",&Brr[iCnt]);
    }
 \
-    iRet=Maximum(Brr,iSize);
+    iRet=Minimum(Brr,iSize);
 
-   printf("The maximum Value is %d",iRet);
+   printf("The Minimum Value is %d",iRet);
     free(Brr);
 
 
