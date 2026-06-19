@@ -16,7 +16,7 @@ class Program178
 
                  System.out.print("*\t");
              }
-             else 
+             else   
              {
                System.out.print(((iCnt/2)+1)+"\t");
               

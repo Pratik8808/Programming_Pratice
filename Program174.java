@@ -1,9 +1,9 @@
 
 // Input :5
-//Output:* # * # *# # *
+//Output:* # * # *# *#
 import java.util.*;
 
-class Program173
+class Program174
 {
     public static void Display(int iNo)
     {
