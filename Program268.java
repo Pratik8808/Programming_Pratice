@@ -14,7 +14,7 @@ public class Program268
     {
          Scanner sobj=new Scanner(System.in);
          String str=null;
-         StringX strobj=new StringX();
+         Program280 strobj=new Program280();
          
          System.out.println("Enter the  String ");
          str=sobj.nextLine();

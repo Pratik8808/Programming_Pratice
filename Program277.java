@@ -8,7 +8,7 @@ public class Program277 {
     public static void main(String[] A) {
         Scanner sobj = new Scanner(System.in);
         String Data = null;
-        StringX strobj = new StringX();//Error    cannot access StringX
+        Program280 strobj = new Program280();//Error    cannot access StringX
         int iRet = 0;
 
         System.out.println("Enter the  String ");

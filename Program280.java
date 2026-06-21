@@ -1,6 +1,6 @@
 package Marvellous;
-
-public class StringX {
+// Rename to StringX
+public class Program280 {
     public int CountCapital(String str) {
 
         char Arr[] = str.toCharArray();
