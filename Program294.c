@@ -2,13 +2,25 @@
 #include <string.h>
 void ReverseDisplay(char *str)
 {
-  printf("%s\n",str);
+   char *start=NULL;
+   start=str;
+   while(*str !='\0')
+   {
+     str++;
+   }
+   str --;
+   while(start<=str)
+   {
+     printf("%s\n",str);
+     str--;
+   }
+
 }
 int main()
 {
    char Arr[50]={'\0'};
    printf("Enter The String : \n");
-   scanf("%[^'\n']",Arr);
+   scanf("%[^'\n']s",Arr);
    ReverseDisplay(Arr);
  
     return 0;

@@ -24,7 +24,7 @@ int main()
 int iRet=0;
     printf("Enter String :  \n");
     scanf("%[^'\n']s",Arr);
-
+    scanf("%[^'\n']s",Arr);
   Update(Arr);
 
   printf("Updated String  is : %s\n",Arr);
