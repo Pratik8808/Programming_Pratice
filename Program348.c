@@ -17,6 +17,8 @@ scanf("%d",&iNo);
 iMask=iMask1 | iMask2;
 iResult=iNo ^iMask;
 
+
+
 printf("Updated number %d\n",iResult);
   
 
