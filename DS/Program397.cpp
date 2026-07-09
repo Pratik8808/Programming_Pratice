@@ -3,7 +3,7 @@ using namespace std;
 #pragma pack(1)
 struct node
 {
-    int node;
+    int data;
     struct node * next;
 };
 
@@ -13,8 +13,17 @@ typedef struct node ** PPNODE;
 
 
 int main()
-{   NODE obj;
-    cout<<sizeof(obj)<<endl;
-    
+{  PNODE newn=NULL;
+   // newn=(PNODE)malloc(Sizeof(NODE))
+   newn=new NODE;
+
+   newn->data=11;
+   newn->next=NULL;
+
+   cout<<newn->data<<endl;
+
+  //free(newn)
+   delete newn;
+
     return 0;
 }
