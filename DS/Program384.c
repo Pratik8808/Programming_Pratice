@@ -34,7 +34,7 @@ int count (PNODE first)
     
 }
 
-void InsertFirst(PPNODE first,int iNo) // why here not created temp pointer here then if call of by address becuse head wiill gone
+void InsertFirst(PPNODE first,int iNo)
 {
     PNODE newn=NULL;
     newn=(PNODE)malloc(sizeof(NODE));
