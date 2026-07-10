@@ -242,43 +242,79 @@ void DoublyLL:: DeleteAtPost(int iPos)
 int main()
 {  
     DoublyLL dobj;
-    dobj.InsertFirst(51);
-    dobj.InsertFirst(21);
-    dobj.InsertFirst(11);
+    int iChoice=0;
+    int iValue=0;
     int iRet=0;
-    iRet=dobj.Count();
-    dobj.Display();
-    cout<<"The Count of Node after InsertFirst is "<<iRet<<endl;
+    int iPosition=0;
 
-    dobj.InsertLast(101);
-    dobj.InsertLast(111);
-    dobj.InsertLast(121);
-    dobj.InsertLast(151);
-    iRet=dobj.Count();
-    dobj.Display();
-    cout<<"The Count of Node after InsertLast is "<<iRet<<endl;
+    while(iChoice!=9)
+    {
+        cout<<"--------------------------\n";
+        cout<<"Enter your choice : \n";
+        cout<<"--------------------------\n";
+        cout<<"1:Insert node at first Postion \n";
+        cout<<"2:Insert node at last Postion \n";
+        cout<<"3:Insert node at Given Postion \n";
+        cout<<"4:Delete node at first Postion : \n ";
+        cout<<"5:Delete node at Last Postion  :\n";
+        cout<<"6:Delete node at Given Postion : \n ";
+        cout<<"7:Display the Elements  :\n";
+        cout<<"8:Count the Number of Elements : \n";
+        cout<<"9:Terminate the Application : \n";
+        cout<<"--------------------------\n";
 
-    dobj.DeleteAtFirst();
+        cin>>iChoice;
 
-    iRet=dobj.Count();
-    dobj.Display();
-    cout<<"The Count of Node after Delete at First is "<<iRet<<endl;
+        switch(iChoice)
+        {
+            case 1:
+                cout<<"Enter the Value :";
+                cin>>iValue;
+                dobj.InsertFirst(iValue);
+                break;
+             case 2:
+                cout<<"Enter the Value :";
+                cin>>iValue;
+                dobj.InsertLast(iValue);
+                break;
+             case 3:
+                cout<<"Enter the Value \n:";
+                cin>>iValue;
+                cout<<"Enter the Position\n";
+                cin>>iPosition;
+                dobj.InsertAtPos(iValue,iPosition);
+                break;
+             case 4:
+                
+                dobj.DeleteAtLast();
+                break;
 
-    dobj.DeleteAtLast();
-    iRet=dobj.Count();
-    dobj.Display();
-    cout<<"The Count of Node after Delete at Last is "<<iRet<<endl;
+            case 5:
+               
+                dobj.DeleteAtLast();
+                break;
+            case 6:
+                 cout<<"Enter the Value \n:";
+                cin>>iValue;
+                dobj.DeleteAtPost(iValue);
+                break;
 
-    dobj.InsertAtPos(211,5);
-    iRet=dobj.Count();
-    dobj.Display();
-    cout<<"The Count of Node after InsertAtPost at Last is "<<iRet<<endl;
+            case 7:
+                dobj.Display();
+                break;
+            case 8:
+                iRet=dobj.Count();
+                cout<<"Number of Elements are "<<iRet;
+            case 9:
+              cout<<"Thank your for visiting\n";
 
-    dobj.DeleteAtPost(4);
-    iRet=dobj.Count();
-    dobj.Display();
-    cout<<"The Count of Node after DeleteAtPost at Last is "<<iRet<<endl;
+            default:
+                cout<<"Inavild Response";
+                break;
+        }
 
+
+    }
    
     return 0;
 }
