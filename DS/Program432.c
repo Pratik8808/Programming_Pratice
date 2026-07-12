@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <stdlib.h>
+#pragma pack(1)
+
+struct node 
+{
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+
+typedef struct node NODE;
+typedef struct node *PNODE;
+typedef struct node **PPNODE;
+
+void Display(PNODE first, PNODE last)
+{
+  
+}
+
+int Count (PNODE first, PNODE last)
+{
+    return 0;
+}
+void InsertFirst(PPNODE first,PPNODE last,int iNO)
+{
+    PNODE newn=NULL;
+    newn=(PNODE) malloc(sizeof(NODE));
+    newn->data=iNO;
+    newn->next=NULL;
+    newn->prev=NULL;
+    if(*first==NULL && *last==NULL )
+    {
+        *first=newn;
+        *last=newn;
+    }
+    else 
+    {
+        newn->next=*first;
+        (*first)->prev=newn;
+        *first=newn;
+
+    }
+    (*last)->next=*first;
+    (*first)->prev=*last;
+
+}
+
+void InsertLast(PPNODE first,PPNODE last,int iNO)
+{}
+void InsertAtPost(PPNODE first,PPNODE last,int iNo ,int iPost)
+{}
+
+void DeleteAtFirst(PPNODE first,PPNODE last)
+{}
+
+void DeleteLast(PPNODE first,PPNODE last)
+{
+   
+   
+    if(*first==NULL && *last==NULL )
+    {
+        return;
+    }
+    else if((*first)->next ==*last)
+    {
+        free(*first);
+    }
+    else 
+    {
+        
+    }
+    (*last)->next=*first;
+    (*first)->prev=*last;
+
+}
+
+void DeleteAtPos(PPNODE first,PPNODE last,int iPost)
+{}
+
+
+
+int main()
+{
+    PNODE head=NULL;
+    PNODE tail=NULL;
+
+    InsertFirst(&head,&tail,51);
+    InsertFirst(&head,&tail,21);
+    InsertFirst(&head,&tail,11);
+
+    Display(head,tail);
+
+
+
+
+
+
+  return 0;
+}
