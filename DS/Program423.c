@@ -12,7 +12,7 @@ typedef struct node* PNODE;
 typedef struct node** PPNODE;
 
 void Display(PNODE first, PNODE last)
-{   //ISSUE
+{ 
     if(first==NULL && last ==NULL)
     {
         return;
