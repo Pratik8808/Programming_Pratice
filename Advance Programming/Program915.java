@@ -1,3 +1,5 @@
+
+//Probelm loopp detected true
 class node
 {
     public int data;
@@ -93,9 +95,29 @@ class SinglyLL
         return bFlag;
 
     }
+    
+
+    public boolean CheckLoopX()
+    {
+        int iCnt=1;
+        node temp=first;
+        boolean bFlag=true;
+        while(temp!=null)
+        {
+            iCnt++;
+            if(iCnt>iCount)
+            {
+                bFlag=true;
+                break;
+            }
+            temp=temp.next;
+
+        }
+        return bFlag;
+    }
 }
 
-class Program913    
+class Program915
 {
     public static void main(String A[])
     {
@@ -127,7 +149,7 @@ class Program913
         //LOop Generation
         // temp2.next=temp1;
 
-        if(sobj.CheckLoop()==true)
+        if(sobj.CheckLoopX()==true)
         {
             System.out.println("Loop Detected");
         }

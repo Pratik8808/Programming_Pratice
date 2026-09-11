@@ -93,9 +93,28 @@ class SinglyLL
         return bFlag;
 
     }
+
+    public boolean CheckLoopX()
+    {
+        int iCnt=1;
+        node temp=first;
+        boolean bFlag=true;
+        while(temp!=null)
+        {
+            iCnt++;
+            if(iCnt>iCount)
+            {
+                bFlag=true;
+                break;
+            }
+            temp=temp.next;
+
+        }
+        return bFlag;
+    }
 }
 
-class Program913    
+class Program916
 {
     public static void main(String A[])
     {
@@ -124,10 +143,10 @@ class Program913
         {
             temp2 = temp2.next;
         }
-        //LOop Generation
-        // temp2.next=temp1;
+        // LOop Generation
+        temp2.next=temp1;
 
-        if(sobj.CheckLoop()==true)
+        if(sobj.CheckLoopX()==true)
         {
             System.out.println("Loop Detected");
         }

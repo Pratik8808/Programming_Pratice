@@ -67,35 +67,38 @@ class SinglyLL
             temp = temp.next;
         }
         System.out.println("null");
-    }  
+    }
     
-    public boolean CheckLoop()
+    public void reverseLinkedList()
     {
-        boolean bFlag=false;
+        node prev=null;
+        node Next=null;
+        node curr=null;
 
-        node fast=null;
-        node slow=null;
-        
-        fast=first;
-        slow=first;
-        while(fast!=null && fast.next!=null)
+        if(first==null)
         {
-            fast=fast.next.next;
-            slow =slow.next;
-
-            if(fast==slow)
-            {
-                bFlag=true;
-                break;
-            }
+            return;
         }
 
-        return bFlag;
+        curr=first;
+        while(curr!=null)
+        {
+            Next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=Next;
+        }
+        first=prev;
+
+
 
     }
+    
+
+    
 }
 
-class Program913    
+class Program917
 {
     public static void main(String A[])
     {
@@ -108,33 +111,11 @@ class Program913
         sobj.InsertFirst(11);
         sobj.InsertLast(101);
         sobj.InsertLast(111);
-        sobj.InsertLast(121);
-        sobj.InsertLast(151);
-
-        //Changes from here
-        node temp1 = null;
-        node temp2 = null;
-
-        temp1 = sobj.first;
-        temp2 = sobj.first;
-
-        temp1 = temp1.next.next;
         
-        while(temp2.next != null)
-        {
-            temp2 = temp2.next;
-        }
-        //LOop Generation
-        // temp2.next=temp1;
-
-        if(sobj.CheckLoop()==true)
-        {
-            System.out.println("Loop Detected");
-        }
-        else 
-        {
-            System.out.println("There is no loop");
-        }
+        sobj.Display();
+        sobj.reverseLinkedList();
+        sobj.Display();
+        
 
 
     }
