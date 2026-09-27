@@ -1,3 +1,4 @@
+//Factory pattern
 class ParkingTicket
 {
     private int ticketNumber;
