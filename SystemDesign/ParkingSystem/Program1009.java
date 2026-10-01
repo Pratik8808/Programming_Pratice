@@ -830,7 +830,84 @@ class ParkingTicket
     
 }
 
-public class Program1008
+////////////////////////////
+/// Step 12: Create EntryGate  classs
+/// It is used to handle entry of a vehicle and its ticket generation
+/// 
+//////////////////////////////
+
+class EntryGate
+{
+    private int gateNumber;
+    
+    public EntryGate(int gateNumber)
+    {
+        this.gateNumber=gateNumber;
+
+    }
+
+    public int getGateNumber()
+    {
+        return this.gateNumber;
+    }
+    // it generate the new parking ticket where  vehicle enters1
+    public ParkingTicket generateTicket(Vehicle vehicle, ParkingFloor parkingfloor,ParkingSpot spot)
+    {
+        System.out.println("Vehicle Entrying from gate :"+this.gateNumber);
+        // New Parking ticket gets generated for the vehicle
+        return  new ParkingTicket(vehicle,parkingfloor,spot);
+    }
+}
+
+////////////////////////////
+/// Step 13: Create ExitGate   classs
+/// It is used to handle entry of a vehicle and its ticket generation
+/// it is used to handle billing and payment during the vehicle exit
+//////////////////////////////
+
+
+class ExitGate
+{
+    private int gateNumber ;
+
+    public ExitGate(int GateNumber)
+    {
+        this.gateNumber=gateNumber;
+    }
+    
+    public int getGateNumber()
+    {
+        return this.getGateNumber();
+    }
+
+    public void processExit(ParkingTicket ticket,PricingStragtegy pricingStragtegy,PaymentStrategy paymentStrategy)
+    {
+        //Step 1:Close the ticket and record the exit time 
+        ticket.closeTicket();
+
+        // Step 2: Calculate the parking duration 
+        long hours=ticket.calculateHours();
+
+        //step 3: Calculate the parking charges 
+
+        double amount =pricingStragtegy.calculatePrice(ticket.getVehicle(), hours);
+
+        System.out.println();
+
+        System.out.println("Vehicle Exiting from gate  :"+getGateNumber());
+
+        System.out.println("Parking Duration "+hours);
+
+        System.out.println("Parking charges "+amount);
+
+        paymentStrategy.pay(amount);
+
+        // step 4: the payment using  selected payemnt stratgey
+    }
+}
+
+
+public class Program1009
 
 {
   public static void main(String[] args) {

@@ -1,6 +1,9 @@
 package ParkingSystem;
 //  Complete this code 
 import java.util.*;
+
+import javax.management.RuntimeErrorException;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -830,11 +833,599 @@ class ParkingTicket
     
 }
 
-public class Program1008
+////////////////////////////
+/// Step 12: Create EntryGate  classs
+/// It is used to handle entry of a vehicle and its ticket generation
+/// 
+//////////////////////////////
+
+class EntryGate
+{
+    private int gateNumber;
+    
+    public EntryGate(int gateNumber)
+    {
+        this.gateNumber=gateNumber;
+
+    }
+
+    public int getGateNumber()
+    {
+        return this.gateNumber;
+    }
+    // it generate the new parking ticket where  vehicle enters1
+    public ParkingTicket generateTicket(Vehicle vehicle, ParkingFloor parkingfloor,ParkingSpot spot)
+    {
+        System.out.println("Vehicle Entrying from gate :"+this.gateNumber);
+        // New Parking ticket gets generated for the vehicle
+        return  new ParkingTicket(vehicle,parkingfloor,spot);
+    }
+}
+
+////////////////////////////
+/// Step 13: Create ExitGate   classs
+/// It is used to handle entry of a vehicle and its ticket generation
+/// it is used to handle billing and payment during the vehicle exit
+//////////////////////////////
+
+
+class ExitGate
+{
+    private int gateNumber ;
+
+    public ExitGate(int GateNumber)
+    {
+        this.gateNumber=gateNumber;
+    }
+    
+    public int getGateNumber()
+    {
+        return this.getGateNumber();
+    }
+
+    public void processExit(ParkingTicket ticket,PricingStragtegy pricingStragtegy,PaymentStrategy paymentStrategy)
+    {
+        //Step 1:Close the ticket and record the exit time 
+        ticket.closeTicket();
+
+        // Step 2: Calculate the parking duration 
+        long hours=ticket.calculateHours();
+
+        //step 3: Calculate the parking charges 
+
+        double amount =pricingStragtegy.calculatePrice(ticket.getVehicle(), hours);
+
+        System.out.println();
+
+        System.out.println("Vehicle Exiting from gate  :"+getGateNumber());
+
+        System.out.println("Parking Duration "+hours);
+
+        System.out.println("Parking charges "+amount);
+
+        paymentStrategy.pay(amount);
+
+        // step 4: the payment using  selected payemnt stratgey
+    }
+
+////////////////////////////
+/// Step 14: Create ExitGate   classs
+/// It is used to handle entry of a vehicle and its ticket generation
+/// it is used to handle billing and payment during the vehicle exit
+//////////////////////////////  
+}
+
+class ParkingLot
+{
+
+    private static ParkingLot instance ;
+    
+
+    //Store the Parking lot name
+
+    private String parkingLotName;
+
+    //Store  all floor  of the parking lot
+
+    private List<ParkingFloor> floors;
+
+    //Maps the ticket number with active parking slot 
+
+    private Map <Integer ,ParkingTicket> activeTickets;
+
+    //Maps vehicle Number with active tickets
+    //Used  for seraching  vehicle
+    //It prevents Duplicate parking
+    private Map<String, ParkingTicket> vehicleTicketMap;
+
+    //Algorithm  used for selection parking spot 
+
+    private ParkingStratergy parkingStrategy;
+
+    //Algorithm used for calculating parking charges 
+    private PricingStragtegy pricingStragtegy;
+
+    //private constructor for  Singleton class 
+
+    private ParkingLot()
+    {
+        floors=new ArrayList<>();
+        activeTickets=new HashMap<>();
+        vehicleTicketMap=new HashMap<>();
+
+        //Default parking System
+
+        parkingStrategy =new FirstAvaiableParkingStrategy();
+
+
+        pricingStragtegy=new NormalPricingStrategy();
+    }
+
+    // Use to set name for complete parking lot
+    public void setParkingLotName(String parkingLotName)
+    {
+        this.parkingLotName=parkingLotName;
+    }
+
+    //Used to add new  Parking Floor 
+    public void addFloor(ParkingFloor floor)
+    {   
+        //Insert in Arraylist
+        floors.add(floor);
+    }
+    // this method  returns list of all floor 
+    public List<ParkingFloor>getfloor()
+    {
+        return floors;
+    }
+    // This method can be used to chagne the default parking stragtegy
+     public void setParkingStragegy(ParkingStratergy strategy)
+     {
+        this.parkingStrategy=strategy;
+     }
+
+     public void  setPricingStragey(PricingStragtegy stragey)
+     {
+        this.pricingStragtegy=stragey;
+
+    }
+
+/*
+    Algorithm for Parking the vehicle 
+
+    Check Dupicate Vehicle
+        |
+    Find avaiable Spot
+        |
+    Indenttiy floor for vehcile
+        |
+    Occupy Spot for vechile
+        |
+    Generate  ticket for Vehcile
+        |
+    Store the finale ticket 
+
+
+
+
+*/
+
+    public ParkingTicket parkVehicle(Vehicle vehicle, EntryGate entryGate)
+    {
+
+        // Step 1:Prevent the same vehcile  for  being parked multiple times
+
+        if(vehicleTicketMap.containsKey(vehicle.GetVehicleNumber()))
+        {
+            System.out.println("This Vehicle is Already Parked through");
+            throw new RuntimeException("This Vehicle is already Parked");
+        }
+
+        ParkingSpot spot=parkingStrategy.findSpot(floors, vehicle);
+
+        if(spot==null)
+        {
+
+            throw new RuntimeException("Parking is full");
+        }
+
+        // Step 3: Indentity the exact  floor for the  vehicle 
+        ParkingFloor  selectedFloor=null;
+
+        for(ParkingFloor floor:floors)
+        {
+            ParkingSpot temp=floor.findAvailableSpot();
+            if(temp==spot)
+            {
+                selectedFloor=floor;
+            }
+            break;
+        }
+        
+
+        if(selectedFloor==null)
+        {
+            throw new  RuntimeException("UNable to indentify the floor");
+        }
+
+        // Selected 4 :Occupy the spot
+        selectedFloor.Occupyspot(spot, vehicle);
+
+        //Step 5 :Generate the Parking Ticket from entry page
+
+        ParkingTicket ticket= entryGate.generateTicket(vehicle, selectedFloor, spot);
+
+
+        //Step 6:Store the ticket using ticket Number;
+
+        activeTickets.put(ticket.getTicketNumber(),ticket);
+
+        //Step 7 : Store the final ticket using vehicle number
+
+        vehicleTicketMap.put(vehicle.GetVehicleNumber(),ticket);
+
+        return ticket;
+    }
+
+        /*
+        FInd ticket
+             |
+            Process Exit
+            |
+            Calculate Charges
+            |
+            Payment 
+            |
+            Release Spot
+            |
+        
+        
+        */
+
+        public void removeVehicle(int ticketNumber, ExitGate exitgate,PaymentStrategy paymentStrategy)
+        { 
+            //Step 1:Find the active ticket using ticket Number
+            ParkingStratergy ticket =activeTickets.get(parkingStrategy);
+
+            if(ticket==null)
+            {
+                throw new  RuntimeException("There is not such ticket ");
+            }
+
+            // step 2 :Perform billing and payment 
+
+            exitgate.processExit(ticket,pricingStragtegy,paymentStrategy);
+
+            // Step 3: Release the occupied Spot
+
+            ticket.getfloor().releaseSpot(ticket.getSpot());
+
+            // Step 4:Remove Ticket
+            activeTickets.remove(ticketNumber);
+
+            // Step 5:Remove vehicle from active Vehicle
+
+            System.out.println("Vehicle  removed Sucessfully");
+        }
+
+
+        // Ser the specified method
+
+        public ParkingTicket SearchVechicle(String VehicleNumber)
+        {
+            return vehicleTicketMap.get(VehicleNumber);
+        }
+
+        // Display complete parking lot information
+        public void displayParkingLot()
+        {
+            System.out.println();
+            System.out.println("------------------------------------------");
+            System.out.println("------------Parking lot Details-------------");
+            System.out.println("_---------------------------------------------");
+
+            
+
+        }
+
+        public static synchronized ParkingLot getInstance()
+        {
+            if(instance==null)
+            {
+                instance=new ParkingLot();
+            }
+
+            return instance;
+        }
+
+    
+
+}
+
+
+////////////////////////////
+/// Step 15: Controller of the project
+/// It is used to handle entry of a vehicle and its ticket generation
+/// it is used to handle billing and payment during the vehicle exit
+//////////////////////////////  
+
+/*
+
+1:Create ParkingLot
+
+2:Create Floor
+3:Add Parking floor
+4.Create  Display Board
+5.Register observers
+6.Add Floor
+7:Create Entry Exit Gates
+8. Display Menu
+
+
+*/
+
+
+public class Program1015
 
 {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws  Exception {
 
+    Scanner sc=new Scanner(System.in);
+    ParkingLot parkingLot=ParkingLot.getInstance();
+    parkingLot.setParkingLotName("Park Engine");
+    
+    //////////////////////////////
+    ///  2:Create Multipe floors
+    /// 
+    ///// //////////////////////////////////
+    /// 
+    
+    // Add the First Floor
+    ParkingFloor floor1=new ParkingFloor(1);
+
+
+    //////////////////////////////
+    ///  3:Create Multipe floors
+    /// 
+    ///// //////////////////////////////////
+    floor1.addParkingSpot(new BikeSpot(101));
+    floor1.addParkingSpot(new BikeSpot(102));
+    floor1.addParkingSpot(new CarSpot(103));
+    floor1.addParkingSpot(new CarSpot(104));
+
+
+
+    floor1.addParkingSpot(new TruckSpot(105));
+    floor1.addParkingSpot(new TruckSpot(106));
+
+    //////////////////////////////////
+    // 4.Create  Display Board
+    /////////////////////////////////
+    
+    ParkingDisplayBoard Board1 =new ParkingDisplayBoard(floor1);
+    
+
+    //Register the Display board with Observer
+
+    floor1.AddObserver(Board1);
+
+
+    // Add Second Floor 
+
+
+      ParkingFloor floor2=new ParkingFloor(2);
+
+
+    //////////////////////////////
+    ///  3:Create Multipe floors
+    /// 
+    ///// //////////////////////////////////
+    floor2.addParkingSpot(new BikeSpot(201));
+    floor2.addParkingSpot(new BikeSpot(202));
+    floor2.addParkingSpot(new CarSpot(203));
+    floor2.addParkingSpot(new CarSpot(204));
+
+
+
+    floor2.addParkingSpot(new TruckSpot(205));
+    floor2.addParkingSpot(new TruckSpot(206));
+
+    //////////////////////////////////
+    // 4.Create  Display Board
+    /////////////////////////////////
+    
+    ParkingDisplayBoard Board2 =new ParkingDisplayBoard(floor2);
+    
+
+    //Register the Display board with Observer
+
+    floor2.AddObserver(Board2);
+
+    /////////////////////////////////////
+    //
+    //6:Add floor to ParkingLot
+    //
+    ///////////////////////////////////////
+    
+    parkingLot.addFloor(floor1);
+    parkingLot.addFloor(floor2);
+
+
+    /////////////////////////////////////
+    //
+    //:create  entry exit Gate
+    //
+    ///////////////////////////////////////
+    ///
+    
+    EntryGate entryGate=new EntryGate(1);
+    ExitGate ExitGate=new ExitGate(1);
+
+
+
+    /////////////////////////////////
+    //
+    // 8. Disp;ay Menu
+    //
+    ///////////////////////////////////
+
+    while(true)
+    {
+        System.out.println("--------------------------------------------");
+
+        System.out.println("------------Parking Engine------------------");
+
+        System.out.println("--------------------------------------------");
+
+        System.out.println("1 : Park Vehicle ");
+        System.out.println("2 : Exit Vehicle ");
+        System.out.println("3 : Serach Vehicle");
+        System.out.println("4 : Display Parking lot ");
+        System.out.println("5: Exit");
+
+
+        System.out.println("Enter your Choice :");
+        int paymentType;
+       int  choice=sc.nextInt();
+
+
+       try
+       {
+        switch (choice) {
+            case 1:// Park Vehicle
+            {
+                System.out.println("");
+                System.out.println("Select vehcile type");
+                System.out.println("1:Bike");
+                System.out.println("2:car");
+                System.out.println("3:Truck");
+
+                int type=sc.nextInt();
+                System.out.println("Enter vehicle Number");
+                String Number=sc.next();
+
+                Vehicle vehicle;
+
+                //Factory Pattern is used
+
+                switch (type) {
+                    case 1:
+                        
+                        vehicle=VehicleFactory.creatVehicle(vehicleType.BIKE, Number);
+                        break;
+                    case 2:
+                        
+                        vehicle=VehicleFactory.creatVehicle(vehicleType.Car, Number);
+                        break;
+
+                         case 3:
+                        
+                        vehicle=VehicleFactory.creatVehicle(vehicleType.TRUCK, Number);
+                        break;
+
+                        default:
+                            System.out.println("Invaild type of Vehicle");
+                            continue;
+                }
+                //Park the vehicle and genrate the ticket
+
+                ParkingTicket ticket=parkingLot.parkVehicle(vehicle, entryGate);
+                
+                //Display Generated ticket
+                ticket.DisplayTicket();
+
+
+                
+
+
+            } // end of the swtich inside the vechile
+              
+        
+            case 2:// Exit Vechile
+                {
+                    System.out.println("Enter the Ticket Number");
+                    int ticketNumber=sc.nextInt();
+
+                    System.out.println("Enter the  Payment Option");
+
+                    System.out.println("1:Cash");
+                    System.out.println("1:UPI");
+                    System.out.println("1:Card");
+
+                    paymentType=sc.nextInt();
+                    PaymentStrategy paymentStrategy;
+
+                    switch (paymentType) {
+                        case 1:
+                            break;
+                            paymentStrategy= new cashPayment();
+                        
+                        case 2:
+                            paymentStrategy=new UPIPayments();
+                            break;
+                        case 3:
+                            paymentStrategy=new CardPayment();
+                            break;
+
+                        default:
+                            System.out.println("Invalid payment option");
+                            continue;
+                    
+                        
+                    }// end  of payment vehicle
+                    parkingLot.removeVehicle(ticketNumber, ExitGate, paymentStrategy);
+                }
+
+            case 3: // Serach Vehicle
+                {
+                    System.out.println("Enter the Vehicle Number");
+
+                    String VehicleNumber=sc.next();
+
+                    ParkingTicket ticket=parkingLot.SearchVechicle(VehicleNumber);
+
+                    if(ticket==null)
+                    {
+                        System.out.println("The Vehcile is not parked");
+                    }
+                    else
+                    {
+                        ticket.DisplayTicket();
+                    }
+                    break;
+                }
+
+                case 4:
+            {
+                parkingLot.displayParkingLot();
+                break;
+
+            }
+
+            case 5:
+                {
+                    System.out.println("Thank you for using Marvellous ParkingEngine");
+                    sc.close();
+                }
+
+                default:
+
+                {
+                    System.out.println("Invaild Exception`");
+                }
+                
+        }//end of swtich
+
+       }// End of try
+       catch(Exception eobj)
+       {
+        System.out.println("Exception occured :"+eobj);
+       }
+
+
+
+
+    }// End of the while
 
     
   }  
